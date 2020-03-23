@@ -7,6 +7,7 @@ import { WithdrawForm } from "./components/WithdrawForm";
 import { TokenInfo } from "./components/TokenInfo";
 import BgTopLeft from "./assets/bg--topleft.png";
 import BgTopRight from "./assets/bg--topright.png";
+import BgBottom from "./assets/bg--bottom.png";
 
 function App() {
   const [currentUser, setCurrentUser] = useContext(CurrentUserContext);
@@ -59,6 +60,7 @@ function App() {
       </Container>
       <img className="bg--topleft" src={BgTopLeft} />
       <img className="bg--topright" src={BgTopRight} />
+      <img className="bg--bottom" src={BgBottom} />
     </div>
   );
 }

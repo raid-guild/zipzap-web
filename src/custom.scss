@@ -32,8 +32,17 @@ $theme-colors: (
     position: absolute;
     width: 420px;
     height: auto;
-    top: -100px;
+    top: -150px;
     right: -100px;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .bg--bottom {
+    position: absolute;
+    width: 420px;
+    height: auto;
+    bottom: -100px;
+    right: 100px;
     z-index: 0;
     overflow: hidden;
   }
