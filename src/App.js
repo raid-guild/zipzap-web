@@ -5,16 +5,18 @@ import { CurrentUserContext } from "./contexts/Store";
 import { DepositForm } from "./components/DepositForm";
 import { WithdrawForm } from "./components/WithdrawForm";
 import { TokenInfo } from "./components/TokenInfo";
+import BgTopLeft from "./assets/bg--topleft.png";
+import BgTopRight from "./assets/bg--topright.png";
 
 function App() {
   const [currentUser, setCurrentUser] = useContext(CurrentUserContext);
 
   return (
     <div className="App">
-      <Container>
-        <Row>
+      <Container style={{ zIndex: "1", position: "relative" }}>
+        <Row className="Header">
           <Col>
-            <p>zUNIPoolz</p>
+            <h1>zUNIPoolz</h1>
           </Col>
           <Col>
             {currentUser && currentUser.username ? (
@@ -33,16 +35,13 @@ function App() {
           </Col>
           <Col></Col>
         </Row>
-        <Row>
+        <Row className="FormWrapper">
           <Col>
             {currentUser && currentUser.username ? (
               <DepositForm />
             ) : (
               <p>Must sign in first</p>
             )}
-          </Col>
-          <Col>
-            <TokenInfo />
           </Col>
           <Col>
             {currentUser && currentUser.username ? (
@@ -52,7 +51,14 @@ function App() {
             )}
           </Col>
         </Row>
+        <Row>
+          <Col>
+            <TokenInfo />
+          </Col>
+        </Row>
       </Container>
+      <img className="bg--topleft" src={BgTopLeft} />
+      <img className="bg--topright" src={BgTopRight} />
     </div>
   );
 }

@@ -1,12 +1,61 @@
+@import "variables";
 // Override default variables before the import
 $body-bg: #fff;
+/* make the customizations */
+$theme-colors: (
+  "info": orange,
+  "danger": tomato,
+  "primary": #a411ea
+);
 // Import Bootstrap and its default variables
 @import "~bootstrap/scss/bootstrap.scss";
 
 .App {
   background: linear-gradient(45deg, #5c56f0, #ad56f0);
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
   width: 100vw;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  .bg--topleft {
+    position: absolute;
+    width: 420px;
+    height: auto;
+    top: 50%;
+    left: -150px;
+    transform: translateY(-50%);
+    z-index: 0;
+    overflow: hidden;
+  }
+  .bg--topright {
+    position: absolute;
+    width: 420px;
+    height: auto;
+    top: -100px;
+    right: -100px;
+    z-index: 0;
+    overflow: hidden;
+  }
+}
+
+.Header {
+  width: 100%;
+  height: 100px;
+  align-items: center;
+  justify-content: space-between;
+  .col:nth-child(2) {
+    text-align: right;
+    width: 100px;
+    p {
+      text-align: right;
+      width: 100px;
+      text-overflow: ellipsis;
+    }
+  }
+  h1 {
+    color: white;
+  }
 }
 
 .Hero {
@@ -26,5 +75,35 @@ a {
   transition: all 0.15s linear;
   &:hover {
     text-decoration: none;
+  }
+}
+
+button {
+  width: 100%;
+  margin: 0;
+}
+
+.FormWrapper {
+  background-color: rgba(0, 0, 0, 0.75);
+  border-radius: 10px;
+}
+
+.Card {
+  border: 2px solid $primary;
+  border-radius: 10px;
+  padding: 25px;
+  background-color: transparent;
+  box-shadow: none;
+  h2 {
+    color: $primary;
+  }
+}
+
+.Form {
+  width: 100%;
+  padding-bottom: 0px;
+  padding-top: 0px;
+  .form-group {
+    margin-bottom: 25px;
   }
 }
