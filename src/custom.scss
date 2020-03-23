@@ -1,4 +1,30 @@
 // Override default variables before the import
-$body-bg: #FFF;
+$body-bg: #fff;
 // Import Bootstrap and its default variables
-@import '~bootstrap/scss/bootstrap.scss';
+@import "~bootstrap/scss/bootstrap.scss";
+
+.App {
+  background: linear-gradient(45deg, #5c56f0, #ad56f0);
+  height: 100vh;
+  width: 100vw;
+}
+
+.Hero {
+  min-height: 420px;
+  align-content: center;
+  color: white;
+  a {
+    color: white;
+    &:hover {
+      color: blue;
+    }
+  }
+}
+
+a {
+  text-decoration: none;
+  transition: all 0.15s linear;
+  &:hover {
+    text-decoration: none;
+  }
+}
