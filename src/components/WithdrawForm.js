@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import { Formik } from "formik";
-import { Form } from "react-bootstrap";
+import { Form, Row, Col } from "react-bootstrap";
 
 import {
   Web3ConnectContext,
@@ -20,6 +20,16 @@ export const WithdrawForm = () => {
   return (
     <CONTAINER className="Card">
       <h2>Unwrap</h2>
+      <Row>
+        <Col>
+          <p className="Label">Balance</p>
+          <p className="Value">0.00 zUNI</p>
+        </Col>
+        <Col>
+          <p className="Label">Rewards Earned</p>
+          <p className="Value">0.00 LPs</p>
+        </Col>
+      </Row>
       <Formik
         initialValues={{
           amount: 0
