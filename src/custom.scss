@@ -5,7 +5,8 @@ $body-bg: #fff;
 $theme-colors: (
   "info": orange,
   "danger": tomato,
-  "primary": #a411ea
+  "primary": #0040ea,
+  "secondary": #a411ea
 );
 // Import Bootstrap and its default variables
 @import "~bootstrap/scss/bootstrap.scss";
@@ -103,11 +104,23 @@ button {
   padding: 25px;
   background-color: transparent;
   box-shadow: none;
+  width: 80%;
   h2 {
     color: $primary;
   }
   .NotActive {
     border: 2px dotted $primary;
+  }
+}
+
+.FormWrapper {
+  align-items: center;
+  justify-content: center;
+  .Arrow {
+    svg {
+      margin: 0 auto;
+      display: block;
+    }
   }
 }
 
@@ -117,5 +130,22 @@ button {
   padding-top: 0px;
   .form-group {
     margin-bottom: 25px;
+  }
+}
+
+// Bootstrap overrides
+.modal-header .close {
+  padding: 1rem 1rem;
+  margin-right: 0;
+  margin-top: -10px;
+  width: 24px;
+  /* text-align: center; */
+}
+
+// Responsive
+
+@media all and (max-width: 600px) {
+  .Arrow svg {
+    transform: rotate(90deg);
   }
 }
