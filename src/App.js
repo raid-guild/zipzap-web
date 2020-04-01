@@ -37,14 +37,22 @@ function App() {
           <Col></Col>
         </Row>
         <Row className="FormWrapper">
-          <Col>
+          <Col xs={12} sm={5}>
             {currentUser && currentUser.username ? (
               <DepositForm />
             ) : (
               <p>Must sign in first</p>
             )}
           </Col>
-          <Col>
+          <Col xs={2} className="Arrow">
+            <svg width="48" height="48" viewBox="0 0 24 24">
+              <path
+                fill="#54E8DC"
+                d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
+              />
+            </svg>
+          </Col>
+          <Col xs={12} sm={5}>
             {currentUser && currentUser.username ? (
               <WithdrawForm />
             ) : (
