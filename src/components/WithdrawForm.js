@@ -6,7 +6,7 @@ import { Form, Row, Col, Modal, ButtonGroup } from "react-bootstrap";
 import {
   Web3ConnectContext,
   CurrentUserContext,
-  ContractContext
+  ContractContext,
 } from "../contexts/Store";
 
 import { DepositSchema } from "./Validation";
@@ -31,10 +31,14 @@ export const WithdrawForm = () => {
       <Row>
         <Col>
           <p className="Label">Balance</p>
-          <p className="Value">0.00 zUNI</p>
+          <p className="Value">
+            {currentUser.zuniBalance &&
+              parseInt(currentUser.zuniBalance).toFixed(2)}{" "}
+            zUNI
+          </p>
         </Col>
         <Col>
-          <p className="Label">Rewards Earned</p>
+          <p className="Label">Rewards Earned (NA)</p>
           <p className="Value">0.00 LP</p>
         </Col>
       </Row>
@@ -54,7 +58,8 @@ export const WithdrawForm = () => {
         <Modal.Body>
           <Formik
             initialValues={{
-              amount: 0
+              amount: 0,
+              recipient: '',
             }}
             validationSchema={DepositSchema}
             onSubmit={async (values, { setSubmitting, resetForm }) => {
@@ -63,12 +68,12 @@ export const WithdrawForm = () => {
                 const weiValue = web3Connect.web3.utils.toWei(
                   "" + values.amount
                 );
-                await contracts.weth.methods
-                  .withdraw(weiValue)
+                await contracts.zuni.methods
+                  .transfer(values.recipient, weiValue)
                   .send({ from: currentUser.username });
                 setCurrentUser({
                   ...currentUser,
-                  ...{ wethBalance: +currentUser.wethBalance - values.amount }
+                  ...{ lpBalance: +currentUser.lpBalance - values.amount },
                 });
               } catch (err) {
                 console.log(err);
@@ -85,10 +90,24 @@ export const WithdrawForm = () => {
               handleChange,
               handleBlur,
               handleSubmit,
-              isSubmitting
+              isSubmitting,
             }) => (
               <DEPOSITFORM onSubmit={handleSubmit} className="mx-auto Form">
-                <Form.Group controlId="depositForm">
+                <Form.Group controlId="transferForm">
+                  <Form.Label>Recipient</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="recipient"
+                    placeholder="recipient (address)"
+                    value={values.recipient}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className={touched.recipient && errors.recipient ? "error" : null}
+                  />
+                  {touched.recipient && errors.recipient ? (
+                    <div className="error-message">{errors.recipient}</div>
+                  ) : null}
+
                   <Form.Label>Amount</Form.Label>
                   <Form.Control
                     type="number"
@@ -119,7 +138,7 @@ export const WithdrawForm = () => {
         <Modal.Body>
           <Formik
             initialValues={{
-              amount: 0
+              amount: 0,
             }}
             validationSchema={DepositSchema}
             onSubmit={async (values, { setSubmitting, resetForm }) => {
@@ -128,12 +147,12 @@ export const WithdrawForm = () => {
                 const weiValue = web3Connect.web3.utils.toWei(
                   "" + values.amount
                 );
-                await contracts.weth.methods
-                  .withdraw(weiValue)
+                await contracts.zuni.methods
+                  .getMyStakeOut(weiValue)
                   .send({ from: currentUser.username });
                 setCurrentUser({
                   ...currentUser,
-                  ...{ wethBalance: +currentUser.wethBalance - values.amount }
+                  ...{ lpBalance: +currentUser.lpBalance - values.amount },
                 });
               } catch (err) {
                 console.log(err);
@@ -150,10 +169,10 @@ export const WithdrawForm = () => {
               handleChange,
               handleBlur,
               handleSubmit,
-              isSubmitting
+              isSubmitting,
             }) => (
               <DEPOSITFORM onSubmit={handleSubmit} className="mx-auto Form">
-                <Form.Group controlId="depositForm">
+                <Form.Group controlId="zipoutForm">
                   <Form.Label>Amount</Form.Label>
                   <Form.Control
                     type="number"

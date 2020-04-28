@@ -8,6 +8,8 @@ import {
 import { getChainData } from '../utils/Chains';
 
 import WethAbi from '../contracts/wethAbi.json';
+import ZuniAbi from '../contracts/zipAbi.json';
+import SethlpAbi from '../contracts/sethlpAbi.json';
 import TokenAbi from '../contracts/tokenAbi.json';
 import UniswapFactoryAbi from '../contracts/uniswapFactoryAbi';
 
@@ -58,6 +60,26 @@ const Store = ({ children }) => {
                 contracts.weth = new web3Connect.web3.eth.Contract(
                     WethAbi,
                     process.env.REACT_APP_CONTRACT_ADDR);
+            } catch (e) {
+                console.error(
+                    `Could not init contracts`, e
+                );
+            }
+
+            try {
+                contracts.zuni = new web3Connect.web3.eth.Contract(
+                    ZuniAbi,
+                    process.env.REACT_APP_ZUNI_CONTRACT_ADDR);
+            } catch (e) {
+                console.error(
+                    `Could not init contracts`, e
+                );
+            }
+
+            try {
+                contracts.sethlp = new web3Connect.web3.eth.Contract(
+                    SethlpAbi,
+                    process.env.REACT_APP_SETHLP_CONTRACT_ADDR);
             } catch (e) {
                 console.error(
                     `Could not init contracts`, e

@@ -28,7 +28,7 @@
     walletconnect: {
       package: WalletConnectProvider, // required
       options: {
-        infuraId: process.env.REACT_APP_INFURA_URI.split('/').pop(),
+        infuraId: process.env.REACT_APP_INFURA_URI,
       },
     },
   };

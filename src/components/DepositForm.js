@@ -28,10 +28,11 @@ export const DepositForm = () => {
         onSubmit={async (values, { setSubmitting, resetForm }) => {
           setSubmitting(true);
           try {
-            const weiValue = web3Connect.web3.utils.toWei("" + values.amount);
-            await contracts.weth.methods
-              .deposit()
-              .send({ value: weiValue, from: currentUser.username });
+            // 18 decimals
+            const decimalValue = web3Connect.web3.utils.toWei("" + values.amount);
+            await contracts.zuni.methods
+              .stakeMyShare(decimalValue)
+              .send({ from: currentUser.username });
             setCurrentUser({
               ...currentUser,
               ...{ wethBalance: +currentUser.wethBalance + values.amount }
@@ -55,7 +56,7 @@ export const DepositForm = () => {
         }) => (
           <DEPOSITFORM onSubmit={handleSubmit} className="mx-auto Form">
             <Form.Group controlId="depositForm">
-              <Form.Label>Amount</Form.Label>
+              <Form.Label>Amount max:{currentUser.lpBalance}</Form.Label>
               <Form.Control
                 type="number"
                 name="amount"
