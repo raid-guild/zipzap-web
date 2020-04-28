@@ -34,11 +34,29 @@ export const TokenInfo = () => {
             return totalSupply / 10 ** decimal;
         }
 
+        const getLPBalance = async () => {
+            const lpBalanceInWei = await contracts.sethlp.methods
+                .balanceOf(currentUser.username)
+                .call();
+            const lpBalance = web3Connect.web3.utils.fromWei("" + lpBalanceInWei);
+            return lpBalance
+        }
+
+        const getZuniBalance = async () => {
+            const zuniBalanceInWei = await contracts.sethlp.methods
+                .balanceOf(currentUser.username)
+                .call();
+            const zuniBalance = web3Connect.web3.utils.fromWei("" + zuniBalanceInWei);
+            return zuniBalance
+        }
+
         const getAll = async () => {
             const wethBalance = await getInfo();
             const exchangeAddress = await getExchange();
             const totalSupply = await getTotalSupply();
-            setCurrentUser({ ...currentUser, ...{ totalSupply, exchangeAddress, wethBalance } })
+            const lpBalance = await getLPBalance();
+            const zuniBalance = await getZuniBalance();
+            setCurrentUser({ ...currentUser, ...{ totalSupply, exchangeAddress, wethBalance, lpBalance, zuniBalance } })
         }
 
         if (contracts) {
@@ -64,6 +82,7 @@ export const TokenInfo = () => {
         if (currentUser && currentUser.exchangeAddress) {
             getExchangeBalance();
         }
+        // eslint-disable-next-line
     },[currentUser])
 
 
@@ -80,6 +99,7 @@ export const TokenInfo = () => {
             <p>Uni exchange Balance: {currentUser && currentUser.exchangeBalance}</p>
             <p>Uni output reserve: {currentUser && currentUser.outputReserve}</p>
             <p>Seth Total Supply: {currentUser && currentUser.totalSupply}</p>
+            <p>SETHLP Balance: {currentUser && currentUser.lpBalance}</p>
             <p>Input {currentUser && currentUser.inputAmount}</p>
             <p>Output {currentUser && currentUser.outputAmount}</p>
         </Container>
