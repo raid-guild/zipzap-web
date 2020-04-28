@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 
 import { Formik } from "formik";
 import { Form, Row, Col, Modal, ButtonGroup } from "react-bootstrap";
@@ -18,12 +18,30 @@ export const WithdrawForm = () => {
   const [contracts] = useContext(ContractContext);
   // Transfer Modal
   const [showTransfer, setShowTransfer] = useState(false);
+  const [zuniWorth, setZuniWorth] = useState(0);
   const handleCloseTransfer = () => setShowTransfer(false);
   const handleShowTransfer = () => setShowTransfer(true);
   // Zip Out Modal
   const [showZipOut, setShowZipOut] = useState(false);
   const handleCloseZipOut = () => setShowZipOut(false);
   const handleShowZipOut = () => setShowZipOut(true);
+
+  useEffect(() => {
+    const getZuniWorth = async () => {
+      const zuniWorthInWei = await contracts.zuni.methods
+        .howMuchIszUNIWorth(
+          web3Connect.web3.utils.toWei("" + currentUser.zuniBalance)
+        )
+        .call();
+      const zuniWorth = web3Connect.web3.utils.fromWei("" + zuniWorthInWei);
+
+      console.log("zunizunizuni", zuniWorth);
+      setZuniWorth(zuniWorth);
+    };
+    if (currentUser.zuniBalance > 0) {
+      getZuniWorth();
+    }
+  }, [currentUser.zuniBalance]);
 
   return (
     <CONTAINER className="Card">
@@ -38,8 +56,10 @@ export const WithdrawForm = () => {
           </p>
         </Col>
         <Col>
-          <p className="Label">Rewards Earned (NA)</p>
-          <p className="Value">0.00 LP</p>
+          <p className="Label">zUni worth</p>
+          <p className="Value">
+            {currentUser.zuniBalance > 0 ? { zuniWorth } + " LP" : "0.00 LP"}
+          </p>
         </Col>
       </Row>
       <ButtonGroup>
@@ -59,7 +79,7 @@ export const WithdrawForm = () => {
           <Formik
             initialValues={{
               amount: 0,
-              recipient: '',
+              recipient: "",
             }}
             validationSchema={DepositSchema}
             onSubmit={async (values, { setSubmitting, resetForm }) => {
@@ -102,7 +122,9 @@ export const WithdrawForm = () => {
                     value={values.recipient}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    className={touched.recipient && errors.recipient ? "error" : null}
+                    className={
+                      touched.recipient && errors.recipient ? "error" : null
+                    }
                   />
                   {touched.recipient && errors.recipient ? (
                     <div className="error-message">{errors.recipient}</div>

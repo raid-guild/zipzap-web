@@ -43,7 +43,7 @@ export const TokenInfo = () => {
         }
 
         const getZuniBalance = async () => {
-            const zuniBalanceInWei = await contracts.sethlp.methods
+            const zuniBalanceInWei = await contracts.zuni.methods
                 .balanceOf(currentUser.username)
                 .call();
             const zuniBalance = web3Connect.web3.utils.fromWei("" + zuniBalanceInWei);
@@ -84,8 +84,6 @@ export const TokenInfo = () => {
         }
         // eslint-disable-next-line
     },[currentUser])
-
-
 
     const forDisplay = (number) => {
 
